@@ -1,0 +1,72 @@
+﻿@model IEnumerable<DepartmentViewModel>
+@{
+    ViewData["Details"] = "ListOfDepartments";
+}
+<div class="form-group">
+<table class="table table-dark caption-top">
+    <caption><strong>List-Of-Departments</strong></caption>
+    <tr>
+        <th>DeptId</th>
+        <th>DeptName</th>
+            <th>Action</th>
+            <th>Action</th>
+    </tr>
+    @foreach(var dept in Model)
+        {
+            <tbody id="department-@dept.DepartmentId">
+                <tr>
+                    <td>
+                        @dept.DepartmentId
+                    </td>
+                    <td>
+                        @dept.DepartmentName
+                    </td>
+                    <td><a class="btn btn-warning" asp-controller="Employee" asp-action="EditEmployee" asp-route-id="@dept.DepartmentId">Edit</a></td>
+                    <td><a class="btn btn-danger delete-btn" id="d1" data-id="@dept.DepartmentId">Delete</a></td>
+            </tbody>
+        }
+
+</table>
+</div>
+@section scripts{
+<script>
+    //     $('.delete-btn').on('click', function () {
+    //         alert('hi');
+    //     var departmentid = $(this).data('id');
+    //         alert('id:'departmentid);
+    //     if (confirm('Are you sure want to delete department..?')) 
+    //     {
+    //         $.ajax({
+    //                 url: '@Url.Action("Department","DeleteDepartment")',
+    //                 type:'get',
+    //                 data: { 'id': departmentid },
+    //             success: function (response) {
+    //                 $('#department-' + departmentid).remove();
+    //                     alert('Department Deleted Succesfully');
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 alert('Error occured while Deleting Department..?');
+    //             }
+    //         });
+    //     }
+    // });
+        $('.delete-btn').on('click', function () {
+            var departmentid = $(this).data('id');
+            if (confirm('Are you sure want to delete these department..?')) {
+                $.ajax({
+                    url: '@Url.Action("DeleteDepartment", "Department")',
+                    type: 'get',
+                    data: { id: departmentid },
+                    success: function (result) {
+                        $('#department-' + departmentid).remove();
+                        alert('Department Deleted Succesfully');
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error occured while Deleting Department..?' + error);
+                    }
+                });
+            }
+        });
+</script>
+}

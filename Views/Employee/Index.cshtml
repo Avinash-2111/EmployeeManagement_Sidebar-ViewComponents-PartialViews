@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EmployeeViewModel>
+@{
+
+} 
+<h3 class="align-content-center text-uppercase" style="color:chartreuse;"><center>#Employees</center></h3>
+<div class="mt-3">
+    <div class="mg-3">
+        <a class="btn btn-success" asp-asp-controller="Employee" asp-action="AddEmployee">Add-New-Employee</a>
+    </div>
+    <div class="row p-4">
+        <div class="col-md-3 justify-content-end">
+        <form asp-action="Index" asp-asp-controller="Employee" method="get" class="d-flex">
+             <input type="search" placeholder="Search" name="searchString" class="form-control me-2" aria-label="Search" />
+            <button class="btn btn-dark">Search</button>
+
+        </form>
+        </div>
+        <div class="col-md-9 d-flex align-items-center">
+          <a asp-action="Index" asp-controller="Employee" class="btn btn-link">Back-To-ListOfEmployees</a>
+          </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <input type="text" id="liveSearch" class="form-control me-2" placeholder="search by name using jquery..." />
+        </div>
+    </div>
+    <table class="table table-responsive caption-top">
+        <caption>List Of Employees</caption>
+        <tr class="table-row-dark" id="tablehead">
+            <th>#</th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.fnamesortparam">FirstName</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.lnamesortparam">LastName</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.dobsortparam">DOB</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.gendersortparam">Gender</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.emailsortparam">Email</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.phonesortparam">Phone</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.addresssortparam">Address</a></th>
+            <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.isactivesortparam">Active</a></th>
+            <th>DeptId</th>
+            <th>Action</th>
+            <th>Action</th>
+           </tr>
+         @await Html.PartialAsync("_Employeedata",Model)
+    </table>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#liveSearch').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#tablebody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+
+        //delete functionality
+        $('.delete-btn').on('click', function () {
+            var employeeid = $(this).data('id');
+            if (confirm('Are you sure want to delete these employee..?')) 
+            {
+                $.ajax({
+                    url: '@Url.Action("DeleteEmployee","Employee")',
+                    type: 'get',
+                    data: {itemid: employeeid },
+                    success: function (result) {
+                        $('#Employee-' + employeeid).remove();
+                        alert('Employee Deleted Succesfully');
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error occured While deleting' + error);
+                    }
+                });
+            }
+        });
+    </script>
+}

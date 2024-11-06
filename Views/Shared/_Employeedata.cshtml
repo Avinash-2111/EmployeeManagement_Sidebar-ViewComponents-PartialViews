@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EmployeeViewModel>
+@* <table class="table table-responsive caption-top">
+    <caption>List Of Employees</caption>
+    <tr class="table-row-dark" id="tablehead">
+        <th>#</th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.fnamesortparam">FirstName</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.lnamesortparam">LastName</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.dobsortparam">DOB</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.gendersortparam">Gender</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.emailsortparam">Email</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.phonesortparam">Phone</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.addresssortparam">Address</a></th>
+        <th><a class="text-dark" asp-action="Index" asp-controller="Employee" asp-route-sortOrder="@ViewBag.isactivesortparam">Active</a></th>
+        <th>DeptId</th>
+        <th>Action</th>
+        <th>Action</th>
+
+    </tr> *@
+    <tbody id="tablebody">
+
+        @foreach (var item in Model)
+        {
+            <tr id="Employee-@item.EmployeeId">
+                <td> @item.EmployeeId</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.DateOfBirth</td>
+                <td>@item.Gender</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>@item.Address</td>
+                <td>@item.IsActive</td>
+                <td>@item.DepartmentId</td>
+                <td><a class="btn btn-warning edit-btn" asp-controller="Employee" asp-action="EditEmployee" asp-route-itemid="@item.EmployeeId">Edit</a></td>
+                <td><a class="btn btn-danger delete-btn" data-id="@item.EmployeeId">Delete</a></td>
+            </tr>
+        }
+
+    </tbody>
+
+
